@@ -20,22 +20,23 @@
     {
       "type": "vmware-iso",
       "version": "15",
+      "cpus": "4",
+      "memory": "2048",
       "iso_url": "{{user `url`}}",
       "iso_checksum": "{{user `checksum`}}",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_timeout": "20m",
-      "disk_type_id": "0",
       "disk_size": "100000",
       "tools_upload_flavor": "linux",
-      "guest_os_type": "centos-64",
+      "guest_os_type": "centos8_64Guest",
       "headless": "{{user `headless`}}",
       "shutdown_command": "{{user `shutdown_command`}}",
       "http_directory": "http",
-      "vmx_remove_ethernet_interfaces": "true"
-      //"boot_command": [
-      //  "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
-      //]
+      "vmx_remove_ethernet_interfaces": "true",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ]
     }
   ]
 }
