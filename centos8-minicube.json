@@ -11,7 +11,8 @@
       "type": "shell",
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
-        "scripts/update.sh",
+        "scripts/appstream.sh", 
+	"scripts/update.sh",
         "scripts/vmtools.sh"
       ]
     }
@@ -21,7 +22,7 @@
       "type": "vmware-iso",
       "version": "15",
       "cpus": "4",
-      "memory": "2048",
+      "memory": "4096",
       "iso_url": "{{user `url`}}",
       "iso_checksum": "{{user `checksum`}}",
       "ssh_username": "vagrant",
@@ -33,7 +34,7 @@
       "headless": "{{user `headless`}}",
       "shutdown_command": "{{user `shutdown_command`}}",
       "http_directory": "http",
-      "vmx_remove_ethernet_interfaces": "true",
+      "vmx_remove_ethernet_interfaces": "false",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ]
