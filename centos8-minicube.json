@@ -5,13 +5,21 @@
     "checksum": "47ab14778c823acae2ee6d365d76a9aed3f95bb8d0add23a06536b58bb5293c0",
     "shutdown_command": "sudo /sbin/halt -p",
     "headless": "true",
-    "hostname": "minikube.sarrionandia.co.uk"
+    "hostname": "minikube.sarrionandia.co.uk",
+    "driver": "none",
+    "admin_user": "kubeadmin",
+    "cpus": "4",
+    "memory": "8192"
   },
   "provisioners": [
     {
       "type": "shell",
       "environment_vars": [
-        "NEWHOSTNAME={{user `hostname`}}"
+        "NEWHOSTNAME={{user `hostname`}}",
+	"DRIVER={{user `driver`}}",
+	"ADMIN_USER={{user `admin_user`}}",
+	"CPUS={{user `cpus`}}",
+	"MEMORY={{user `memory`}}"
     ],
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
@@ -27,8 +35,8 @@
     {
       "type": "vmware-iso",
       "version": "15",
-      "cpus": "4",
-      "memory": "4096",
+      "cpus": "{{user `cpus`}}",
+      "memory": "{{user `memory`}}",
       "iso_url": "{{user `url`}}",
       "iso_checksum": "{{user `checksum`}}",
       "ssh_username": "vagrant",
