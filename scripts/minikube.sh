@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DRIVER="none"	#none or docker
 ADMIN_USER="kubeadmin"
 
 # Add kubeadmin user
@@ -32,8 +33,16 @@ mv kubectl /usr/local/bin
 
 # Set driver
 
-/usr/local/bin/minikube config set driver docker
+/usr/local/bin/minikube config set driver $DRIVER
 
 # Start minikube
 
-#sudo -u $ADMIN_USER /usr/local/bin/minikube start
+if [ $DRIVER="docker" ]
+then
+  sudo -u $ADMIN_USER /usr/local/bin/minikube start
+elif [ $DRIVER="none"]
+then
+  /usr/local/bin/minikube start
+else
+  echo "Didn't start driver $DRIVER"
+fi
