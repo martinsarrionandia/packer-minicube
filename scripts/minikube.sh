@@ -36,7 +36,7 @@ BREATHSPACEMB=128
 KUBEMEM=$((FREEMB-BREATHSPACEMB))
 
 /usr/local/bin/minikube config set driver $DRIVER
-/usr/local/bin/minikube config set cpu $CPUS
+/usr/local/bin/minikube config set cpus $CPUS
 /usr/local/bin/minikube config set memory $KUBEMEM
 
 # Start minikube
@@ -44,7 +44,7 @@ KUBEMEM=$((FREEMB-BREATHSPACEMB))
 if [ "$DRIVER" == "docker" ]
 then
   sudo -u $ADMIN_USER /usr/local/bin/minikube start
-elif [ "$DRIVER" == "none"]
+elif [ "$DRIVER" == "none" ]
 then
   /usr/local/bin/minikube start
 else
