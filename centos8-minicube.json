@@ -11,7 +11,7 @@
     {
       "type": "shell",
       "environment_vars": [
-        "NEWHOSTNMAE={{user `hostname`}}"
+        "NEWHOSTNAME={{user `hostname`}}"
     ],
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
@@ -26,7 +26,6 @@
   "builders": [
     {
       "type": "vmware-iso",
-      "format": "ova",
       "version": "15",
       "cpus": "4",
       "memory": "4096",
