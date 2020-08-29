@@ -3,6 +3,7 @@
 # Add kubeadmin user
 
 useradd $ADMIN_USER
+chpasswd $ADMIN_USER:$ADMIN_PASS
 
 # Install Docker
 
@@ -11,6 +12,7 @@ dnf install docker-ce --nobest -y
 systemctl enable --now docker
 
 usermod -aG docker $ADMIN_USER
+usermod -aG wheel $ADMIN_USER
 
 # Install Conntrack
 

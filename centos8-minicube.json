@@ -8,6 +8,8 @@
     "hostname": "minikube.sarrionandia.co.uk",
     "driver": "none",
     "admin_user": "kubeadmin",
+    "admin_pass": "{{ aws_secretsmanager `host/minikube/users` `kubeadmin` }}",
+    "root_pass": "{{ aws_secretsmanager `host/minikube/users` `root` }}", 
     "cpus": "4",
     "memory": "8192"
   },
@@ -18,6 +20,8 @@
         "NEWHOSTNAME={{user `hostname`}}",
 	"DRIVER={{user `driver`}}",
 	"ADMIN_USER={{user `admin_user`}}",
+	"ADMIN_PASS={{user `admin_pass`}}",
+	"ROOT_PASS={{user `root_pass`}}",
 	"CPUS={{user `cpus`}}",
 	"MEMORY={{user `memory`}}"
     ],
@@ -27,7 +31,8 @@
         "scripts/appstream.sh", 
 	"scripts/update.sh",
         "scripts/vmtools.sh",
-        "scripts/minikube.sh"
+        "scripts/minikube.sh",
+	"scripts/cleanup.sh"
       ]
     }
   ],
