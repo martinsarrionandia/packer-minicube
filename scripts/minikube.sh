@@ -3,7 +3,7 @@
 # Add kubeadmin user
 
 useradd $ADMIN_USER
-chpasswd $ADMIN_USER:$ADMIN_PASS
+echo $ADMIN_USER:$ADMIN_PASS | chpasswd
 
 # Install Docker
 
