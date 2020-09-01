@@ -4,6 +4,8 @@
 
 echo root:$ROOT_PASS | chpasswd
 
+echo "export PATH=\$PATH:/usr/local/sbin" > /root/.bashrc
+
 # Scedule remove vagrant user via inception
 
 cat << EOF > /root/remove_vagrant.sh

@@ -5,13 +5,14 @@
     "checksum": "47ab14778c823acae2ee6d365d76a9aed3f95bb8d0add23a06536b58bb5293c0",
     "shutdown_command": "sudo shutdown -h now",
     "headless": "true",
-    "hostname": "minikube.sarrionandia.co.uk",
+    "hostname": "minikube",
     "driver": "none",
     "admin_user": "kubeadmin",
     "admin_pass": "{{ aws_secretsmanager `host/minikube/users` `kubeadmin` }}",
     "root_pass": "{{ aws_secretsmanager `host/minikube/users` `root` }}", 
     "cpus": "4",
-    "memory": "8192"
+    "memory": "8192",
+    "ova_dir": "/Volumes/Deploy/OVA"
   },
   "provisioners": [
     {
@@ -24,7 +25,7 @@
 	"ROOT_PASS={{user `root_pass`}}",
 	"CPUS={{user `cpus`}}",
 	"MEMORY={{user `memory`}}"
-    ],
+      ],
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
 	"scripts/hostname.sh",
@@ -34,6 +35,19 @@
         "scripts/minikube.sh",
 	"scripts/users.sh"
       ]
+    }
+  ],
+    "post-processors": [
+    {
+      "type": "shell-local",
+      "environment_vars": [
+        "NEWHOSTNAME={{user `hostname`}}",
+        "CPUS={{user `cpus`}}",
+        "MEMORY={{user `memory`}}",
+	"OVA_DIR={{user `ova_dir`}}"
+      ],
+      "execute_command": ["bash", "-c", "{{.Vars}} {{.Script}}"],
+      "scripts": ["scripts/make_ova.sh"]
     }
   ],
   "builders": [

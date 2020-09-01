@@ -45,10 +45,10 @@ KUBEMEM=$((FREEMB-BREATHSPACEMB))
 
 if [ "$DRIVER" == "docker" ]
 then
-  sudo -u $ADMIN_USER /usr/local/bin/minikube start
+  sudo -u $ADMIN_USER /usr/local/bin/minikube start && systemctl enable kubelet
 elif [ "$DRIVER" == "none" ]
 then
-  /usr/local/bin/minikube start
+  /usr/local/bin/minikube start && systemctl enable kubelet
 else
   echo "Didn't start driver $DRIVER"
 fi
