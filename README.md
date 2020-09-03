@@ -5,6 +5,12 @@ Requirements
 
 VMWare Fusion. £3 from Ebay. £80 from VMWare.
 AWS Secret manager
+ansible
+pyvmomi
+
+OVFTool 4.4
+https://my.vmware.com/group/vmware/downloads/details?downloadGroup=OVFTOOL440&productId=967
+
 
 Create a secret with path
 
@@ -22,3 +28,6 @@ export AWS_REGION=eu-west-1
 Set some variable in the json file
 
 ```packer build centos8-minicube.json```
+
+
+Please run ```scripts/deploy_ova.sh``` from root dir

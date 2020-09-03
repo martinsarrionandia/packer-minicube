@@ -6,13 +6,16 @@
     "shutdown_command": "sudo shutdown -h now",
     "headless": "true",
     "hostname": "minikube",
+    "display_name": "minikube",
     "driver": "none",
     "admin_user": "kubeadmin",
     "admin_pass": "{{ aws_secretsmanager `host/minikube/users` `kubeadmin` }}",
     "root_pass": "{{ aws_secretsmanager `host/minikube/users` `root` }}", 
     "cpus": "4",
     "memory": "8192",
-    "ova_dir": "/Volumes/Deploy/OVA"
+    "deploy_host": "sexiboy.mgmt",
+    "deploy_datastore": "VM",
+    "deploy_network": "Firewall Backend"
   },
   "provisioners": [
     {
@@ -43,8 +46,7 @@
       "environment_vars": [
         "NEWHOSTNAME={{user `hostname`}}",
         "CPUS={{user `cpus`}}",
-        "MEMORY={{user `memory`}}",
-	"OVA_DIR={{user `ova_dir`}}"
+        "MEMORY={{user `memory`}}"
       ],
       "execute_command": ["bash", "-c", "{{.Vars}} {{.Script}}"],
       "scripts": ["scripts/make_ova.sh"]
@@ -63,11 +65,12 @@
       "ssh_timeout": "20m",
       "disk_size": "100000",
       "tools_upload_flavor": "linux",
-      "guest_os_type": "centos8_64Guest",
+      "guest_os_type": "centos8_64",
       "headless": "{{user `headless`}}",
       "shutdown_command": "{{user `shutdown_command`}}",
       "http_directory": "http",
-      "vmx_remove_ethernet_interfaces": "false",
+      "display_name": "{{user `display_name`}}",
+      "vmx_remove_ethernet_interfaces": "true",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ]
