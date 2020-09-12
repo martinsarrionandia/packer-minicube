@@ -63,6 +63,8 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_timeout": "20m",
+      "network_adapter_type": "vmxnet3",
+      "disk_adapter_type": "pvscsi",
       "disk_size": "100000",
       "tools_upload_flavor": "linux",
       "guest_os_type": "centos8_64",
@@ -70,7 +72,11 @@
       "shutdown_command": "{{user `shutdown_command`}}",
       "http_directory": "http",
       "display_name": "{{user `display_name`}}",
-      "vmx_remove_ethernet_interfaces": "true",
+      "vmx_remove_ethernet_interfaces": "false",
+      "vmx_data": {
+        "ethernet0.networkName": "None",
+        "ethernet0.ip": "1.2.3.4"
+      },
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ]

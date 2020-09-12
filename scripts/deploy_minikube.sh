@@ -16,6 +16,10 @@ cd output-vmware-iso
 ovftool \
 --parallelThreads=4 \
 --datastore="$DEPLOY_DATASTORE" \
---prop:"ConfigNET.ipaddr.1"="1.1.1.2" --prop:"ConfigNET.gateway.1"="1.1.9.1" --prop:"ConfigNET.netmask.1"="255.255.255.0" \
-packer-vmware-iso.vmx \
+--network="$DEPLOY_NETWORK" \
+--allowExtraConfig \
+--extraConfig:eth0.ipaddr="192.168.9.55" \
+--X:injectOvfEnv \
+--powerOn \
+minikube.ovf \
 "vi://"$ESXI_USER":"$ESXI_PASSWORD"@"$DEPLOY_HOST""
