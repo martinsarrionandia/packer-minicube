@@ -15,11 +15,16 @@
     "memory": "8192",
     "deploy_host": "sexiboy.mgmt",
     "deploy_datastore": "VM",
-    "deploy_network": "Firewall Backend"
+    "deploy_network": "Firewall Backend",
+    "ip_address": "192.168.9.10/24",
+    "gateway": "192.168.9.1",
+    "dns_server": "192.168.8.2"
+
   },
   "provisioners": [
     {
       "type": "shell",
+      "expect_disconnect": true,
       "environment_vars": [
         "NEWHOSTNAME={{user `hostname`}}",
 	"DRIVER={{user `driver`}}",
@@ -27,7 +32,10 @@
 	"ADMIN_PASS={{user `admin_pass`}}",
 	"ROOT_PASS={{user `root_pass`}}",
 	"CPUS={{user `cpus`}}",
-	"MEMORY={{user `memory`}}"
+	"MEMORY={{user `memory`}}",
+	"IP_ADDRESS={{user `ip_address`}}",
+	"GATEWAY={{user `gateway`}}",
+	"DNS_SERVER={{user `dns_server`}}"
       ],
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
@@ -36,6 +44,8 @@
 	"scripts/update.sh",
         "scripts/vmtools.sh",
         "scripts/minikube.sh",
+	"scripts/disable_eth_naming.sh",
+	"scripts/network.sh",
 	"scripts/users.sh"
       ]
     }
@@ -65,18 +75,14 @@
       "ssh_timeout": "20m",
       "network_adapter_type": "vmxnet3",
       "disk_adapter_type": "pvscsi",
-      "disk_size": "100000",
+      "disk_size": "10000",
       "tools_upload_flavor": "linux",
-      "guest_os_type": "centos8_64",
+      "guest_os_type": "centos8-64",
       "headless": "{{user `headless`}}",
       "shutdown_command": "{{user `shutdown_command`}}",
       "http_directory": "http",
       "display_name": "{{user `display_name`}}",
       "vmx_remove_ethernet_interfaces": "false",
-      "vmx_data": {
-        "ethernet0.networkName": "None",
-        "ethernet0.ip": "1.2.3.4"
-      },
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ]
