@@ -18,14 +18,7 @@ ovftool \
 --datastore="$DEPLOY_DATASTORE" \
 --network="$DEPLOY_NETWORK" \
 --allowExtraConfig \
---extraConfig:eth0.ipaddr="192.168.9.55" \
---extraConfig:scsi0:1.deviceType="scsi-hardDisk" \
---extraConfig:scsi0:1.fileName="kubes_volumes.vmdk" \
---extraConfig:scsi0:1.mode="independent-persistent" \
---extraConfig:sched.scsi0:1.shares="normal" \
---extraConfig:sched.scsi0:1.throughputCap="off" \
---extraConfig:scsi0:1.present="TRUE" \
---extraConfig:scsi0:1.redo="" \
+--extraConfig:eth0.ipaddr="MANUAL" \
 --X:injectOvfEnv \
 --powerOn \
 packer-vmware-iso.vmx \
