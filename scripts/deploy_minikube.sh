@@ -20,6 +20,11 @@ ovftool \
 --allowExtraConfig \
 --extraConfig:eth0.ipaddr="MANUAL" \
 --X:injectOvfEnv \
+--X:logFile=ovftool.log \
+--X:logLevel=verbose \
 --powerOn \
 packer-vmware-iso.vmx \
 "vi://"$ESXI_USER":"$ESXI_PASSWORD"@"$DEPLOY_HOST""
+
+VMID=`cat ovftool.log|grep WaitForIp | sed -e "s/^.*VirtualMachine:\([0-9]*\)\('\)/\1/"`
+
