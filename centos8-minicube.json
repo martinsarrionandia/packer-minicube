@@ -30,27 +30,27 @@
       "expect_disconnect": true,
       "environment_vars": [
         "NEWHOSTNAME={{user `hostname`}}",
-	"DRIVER={{user `driver`}}",
-	"ADMIN_USER={{user `admin_user`}}",
-	"ADMIN_PASS={{user `admin_pass`}}",
-	"ROOT_PASS={{user `root_pass`}}",
-	"CPUS={{user `cpus`}}",
-	"MEMORY={{user `memory`}}",
-	"IP_ADDRESS={{user `ip_address`}}",
-	"GATEWAY={{user `gateway`}}",
-	"DNS_SERVER={{user `dns_server`}}"
+        "DRIVER={{user `driver`}}",
+        "ADMIN_USER={{user `admin_user`}}",
+        "ADMIN_PASS={{user `admin_pass`}}",
+        "ROOT_PASS={{user `root_pass`}}",
+        "CPUS={{user `cpus`}}",
+        "MEMORY={{user `memory`}}",
+        "IP_ADDRESS={{user `ip_address`}}",
+        "GATEWAY={{user `gateway`}}",
+        "DNS_SERVER={{user `dns_server`}}"
       ],
       "execute_command": "sudo {{.Vars}} sh {{.Path}}",
       "scripts": [
-	"scripts/hostname.sh",
+        "scripts/hostname.sh",
         "scripts/appstream.sh", 
-	"scripts/update.sh",
+        "scripts/update.sh",
         "scripts/vmtools.sh",
         "scripts/minikube.sh",
-	"scripts/disable_eth_naming.sh",
-	"scripts/network.sh",
-	"scripts/fstab.sh",
-	"scripts/users.sh"
+        "scripts/disable_eth_naming.sh",
+        "scripts/network.sh",
+        "scripts/fstab.sh",
+        "scripts/users.sh"
       ]
     }
   ],
