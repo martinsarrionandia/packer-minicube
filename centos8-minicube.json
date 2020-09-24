@@ -63,7 +63,7 @@
         "MEMORY={{user `memory`}}"
       ],
       "execute_command": ["bash", "-c", "{{.Vars}} {{.Script}}"],
-      "scripts": ["scripts/make_ova.sh"]
+      "scripts": ["scripts/full_deploy.sh"]
     }
   ],
   "builders": [
