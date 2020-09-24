@@ -18,8 +18,11 @@
     "deploy_network": "Firewall Backend",
     "ip_address": "192.168.9.10/24",
     "gateway": "192.168.9.1",
-    "dns_server": "192.168.8.2"
-
+    "dns_server": "192.168.8.2",
+    "volume_disk_size": "16G",
+    "volume_disk_datastore": "Archive",
+    "volume_disk_controller": "0",
+    "volume_disk_target": "1"
   },
   "provisioners": [
     {
@@ -46,6 +49,7 @@
         "scripts/minikube.sh",
 	"scripts/disable_eth_naming.sh",
 	"scripts/network.sh",
+	"scripts/fstab.sh",
 	"scripts/users.sh"
       ]
     }

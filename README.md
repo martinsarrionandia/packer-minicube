@@ -4,9 +4,14 @@
 Requirements
 
 VMWare Fusion. £3 from Ebay. £80 from VMWare.
+
 AWS Secret manager
-ansible
-pyvmomi
+
+
+sshpass
+```
+brew install esolitos/ipa/sshpass
+```
 
 OVFTool 4.4
 https://my.vmware.com/group/vmware/downloads/details?downloadGroup=OVFTOOL440&productId=967
@@ -31,3 +36,11 @@ Set some variable in the json file
 
 
 Please run ```scripts/deploy_ova.sh``` from root dir
+
+
+Make the filesystem yourself!!
+```
+mkfs.xfs /dev/sdb
+```
+
+eagerzeroedthic

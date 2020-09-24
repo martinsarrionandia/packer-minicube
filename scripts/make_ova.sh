@@ -1,9 +1,7 @@
 #!/bin/bash
 
-cd output-vmware-iso
+cd output-vmware-iso || exit
 
-echo NO NO NO
-
-#ovftool \
-#packer-vmware-iso.vmx \
-#$NEWHOSTNAME.ova
+ovftool \
+packer-vmware-iso.vmx \
+"$NEWHOSTNAME".ova
