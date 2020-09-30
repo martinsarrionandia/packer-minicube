@@ -2,9 +2,9 @@
 
 # Set Root passwd
 
-echo root:$ROOT_PASS | chpasswd
+echo root:"$ROOT_PASS" | chpasswd
 
-echo "export PATH=\$PATH:/usr/local/sbin" > /root/.bashrc
+echo "export PATH=\$PATH:/usr/local/bin" > /root/.bashrc
 
 # Scedule remove vagrant user via inception
 

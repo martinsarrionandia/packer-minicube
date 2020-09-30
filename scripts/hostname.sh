@@ -1,3 +1,3 @@
 #!/bin/bash
 
-hostnamectl set-hostname $NEWHOSTNAME
+hostnamectl set-hostname "$NEWHOSTNAME"

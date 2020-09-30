@@ -26,26 +26,37 @@ mv minikube-linux-amd64 /usr/local/bin/minikube
 
 # Get Kubectl
 
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/"$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"/bin/linux/amd64/kubectl
 chmod 755 kubectl
 mv kubectl /usr/local/bin
 
 # Set config options
 
-FREEKB=$(cat /proc/meminfo |grep MemFree|awk '{print $2}')
+FREEKB=$( < /proc/meminfo grep MemFree|awk '{print $2}')
 FREEMB=$((FREEKB/1024))
 BREATHSPACEMB=128
 KUBEMEM=$((FREEMB-BREATHSPACEMB))
 
-/usr/local/bin/minikube config set driver $DRIVER
-/usr/local/bin/minikube config set cpus $CPUS
-/usr/local/bin/minikube config set memory $KUBEMEM
+# Set config for root.
+# Only root can run driver none
+
+/usr/local/bin/minikube config set driver none
+/usr/local/bin/minikube config set cpus "$CPUS"
+/usr/local/bin/minikube config set memory "$KUBEMEM"
+
+# Set config for kubeadmin
+# Only kubeadmin can run driver docker
+
+sudo -u "$ADMIN_USER" /usr/local/bin/minikube config set driver docker ; \
+/usr/local/bin/minikube config set cpus "$CPUS" ; \
+/usr/local/bin/minikube config set memory "$KUBEMEM"
+
 
 # Start minikube
 
 if [ "$DRIVER" == "docker" ]
 then
-  sudo -u $ADMIN_USER /usr/local/bin/minikube start && systemctl enable kubelet
+  sudo -u "$ADMIN_USER" /usr/local/bin/minikube start && systemctl enable kubelet
 elif [ "$DRIVER" == "none" ]
 then
   /usr/local/bin/minikube start && systemctl enable kubelet

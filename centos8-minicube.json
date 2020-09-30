@@ -7,7 +7,7 @@
     "headless": "true",
     "hostname": "minikube.sarrionandia.co.uk",
     "display_name": "minikube",
-    "driver": "none",
+    "driver": "docker",
     "admin_user": "kubeadmin",
     "admin_pass": "{{ aws_secretsmanager `host/minikube/users` `kubeadmin` }}",
     "root_pass": "{{ aws_secretsmanager `host/minikube/users` `root` }}", 
