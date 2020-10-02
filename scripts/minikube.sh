@@ -64,7 +64,7 @@ Description = Minikube Service
 After = docker.service
 
 [Service]
-User="$ADMIN_USER"
+User=$ADMIN_USER
 ExecStart = /usr/local/bin/minikube start
 ExecStop = /usr/local/bin/minikube stop
 ExecReload = /usr/local/bin/minikube stop ; /usr/local/bin/minikube start
