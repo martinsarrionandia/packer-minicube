@@ -47,16 +47,35 @@ KUBEMEM=$((FREEMB-BREATHSPACEMB))
 # Set config for kubeadmin
 # Only kubeadmin can run driver docker
 
-sudo -u "$ADMIN_USER" /usr/local/bin/minikube config set driver docker ; \
-/usr/local/bin/minikube config set cpus "$CPUS" ; \
+su "$ADMIN_USER" << 'EOF'
+/usr/local/bin/minikube config set driver docker
+/usr/local/bin/minikube config set cpus "$CPUS"
 /usr/local/bin/minikube config set memory "$KUBEMEM"
-
+EOF
 
 # Start minikube
 
 if [ "$DRIVER" == "docker" ]
 then
-  sudo -u "$ADMIN_USER" /usr/local/bin/minikube start && systemctl enable kubelet
+
+cat << EOF > /etc/systemd/system/minikube.service
+[Unit]
+Description = Minikube Service
+After = docker.service
+
+[Service]
+User="$ADMIN_USER"
+ExecStart = /usr/local/bin/minikube start
+ExecStop = /usr/local/bin/minikube stop
+ExecReload = /usr/local/bin/minikube stop ; /usr/local/bin/minikube start
+RemainAfterExit = yes
+
+[Install]
+WantedBy = multi-user.target
+EOF
+
+systemctl enable minikube.service
+
 elif [ "$DRIVER" == "none" ]
 then
   /usr/local/bin/minikube start && systemctl enable kubelet
