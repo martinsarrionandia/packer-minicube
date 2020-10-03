@@ -80,6 +80,8 @@ EOF
 chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/minikube.service
 systemctl enable minikube.service
 
+PROXY_IP=$( echo "$IP_ADDRESS" | sed -e 's/\/[0-9]\{1,2\}//' )
+
 cat << EOF > /etc/systemd/system/minikube-api-proxy.service
 [Unit]
 Description = Minikube API Proxy Service
@@ -87,7 +89,7 @@ After = minikube.service
 
 [Service]
 User=kubeadmin
-ExecStart = /usr/local/bin/kubectl proxy --address $IP_ADDRESS
+ExecStart = /usr/local/bin/kubectl proxy --address $PROXY_IP
 RemainAfterExit = yes
 
 [Install]

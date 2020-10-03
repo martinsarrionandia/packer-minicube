@@ -14,6 +14,7 @@ DEPLOY_HOST=$( < $CONFIG jq --raw-output '.variables.deploy_host')
 DEPLOY_NETWORK=$( < $CONFIG jq --raw-output '.variables.deploy_network')
 DEPLOY_DATASTORE=$( < $CONFIG jq --raw-output '.variables.deploy_datastore')
 ESXI_PASSWORD=$( aws secretsmanager get-secret-value --secret-id $SECRET_ID | jq --raw-output '.SecretString' | jq -r ."$SECRET_KEY")
+KUBE_HOSTNAME=$( < $CONFIG jq --raw-output '.variables.hostname')
 DISPLAY_NAME=$( < $CONFIG jq --raw-output '.variables.display_name')
 VOLUME_DATASTORE=$( < $CONFIG jq --raw-output '.variables.volume_disk_datastore')
 CONTROLLER=$( < $CONFIG jq --raw-output '.variables.volume_disk_controller')
@@ -75,4 +76,4 @@ EOF"
 
 # Clear SSH Key
 
-ssh-keygen -R "$HOSTNAME"
+ssh-keygen -R "$KUBE_HOSTNAME"
