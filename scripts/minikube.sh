@@ -23,13 +23,14 @@ yum -y install conntrack
 wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 chmod 755 minikube-linux-amd64
 mv minikube-linux-amd64 /usr/local/bin/minikube
+chcon system_u:object_r:container_runtime_exec_t:s0 /usr/local/bin/minikube
 
 # Get Kubectl
 
 curl -LO https://storage.googleapis.com/kubernetes-release/release/"$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"/bin/linux/amd64/kubectl
 chmod 755 kubectl
 mv kubectl /usr/local/bin
-chcon system_u:object_r:container_runtime_exec_t:s0 /usr/local/bin/minikube
+chcon system_u:object_r:container_runtime_exec_t:s0 /usr/local/bin/kubectl
 
 # Set config options
 
@@ -77,8 +78,24 @@ WantedBy = multi-user.target
 EOF
 
 chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/minikube.service
-
 systemctl enable minikube.service
+
+cat << EOF > /etc/systemd/system/minikube-api-proxy.service
+[Unit]
+Description = Minikube API Proxy Service
+After = minikube.service
+
+[Service]
+User=kubeadmin
+ExecStart = /usr/local/bin/kubectl proxy --address $IP_ADDRESS
+RemainAfterExit = yes
+
+[Install]
+WantedBy = multi-user.target
+EOF
+
+chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/minikube-api-proxy.service
+systemctl enable minikube-api-proxy.service
 
 elif [ "$DRIVER" == "none" ]
 then
