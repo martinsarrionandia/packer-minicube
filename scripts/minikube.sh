@@ -29,6 +29,7 @@ mv minikube-linux-amd64 /usr/local/bin/minikube
 curl -LO https://storage.googleapis.com/kubernetes-release/release/"$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"/bin/linux/amd64/kubectl
 chmod 755 kubectl
 mv kubectl /usr/local/bin
+chcon system_u:object_r:container_runtime_exec_t:s0 /usr/local/bin/minikube
 
 # Set config options
 
@@ -47,13 +48,14 @@ KUBEMEM=$((FREEMB-BREATHSPACEMB))
 # Set config for kubeadmin
 # Only kubeadmin can run driver docker
 
-su "$ADMIN_USER" << 'EOF'
+sudo -u "$ADMIN_USER" sh << EOF
 /usr/local/bin/minikube config set driver docker
-/usr/local/bin/minikube config set cpus "$CPUS"
-/usr/local/bin/minikube config set memory "$KUBEMEM"
+/usr/local/bin/minikube config set cpus $CPUS
+/usr/local/bin/minikube config set memory $KUBEMEM
+/usr/local/bin/minikube start
 EOF
 
-# Start minikube
+# Create minikube systemd unit file for driver docker
 
 if [ "$DRIVER" == "docker" ]
 then
@@ -64,7 +66,7 @@ Description = Minikube Service
 After = docker.service
 
 [Service]
-User=$ADMIN_USER
+User = $ADMIN_USER
 ExecStart = /usr/local/bin/minikube start
 ExecStop = /usr/local/bin/minikube stop
 ExecReload = /usr/local/bin/minikube stop ; /usr/local/bin/minikube start
@@ -73,6 +75,8 @@ RemainAfterExit = yes
 [Install]
 WantedBy = multi-user.target
 EOF
+
+chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/minikube.service
 
 systemctl enable minikube.service
 

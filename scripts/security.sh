@@ -19,3 +19,18 @@ EOF
 chmod 755 /root/remove_vagrant.sh
 chmod +x /etc/rc.d/rc.local
 echo "/root/remove_vagrant.sh" >> /etc/rc.d/rc.local
+
+# Disable root login
+
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+
+# Turn on selinux 
+
+if [ "$DRIVER" == "docker" ]
+then
+  sed -i 's/SELINUX=.*/SELINUX=enforcing/' /etc/selinux/config
+fi
+
+# Enable firewall rules
+
+#systemctl enable --now firewalld

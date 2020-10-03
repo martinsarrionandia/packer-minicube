@@ -54,6 +54,7 @@ ovftool \
 --network="$DEPLOY_NETWORK" \
 --allowExtraConfig \
 --extraConfig:eth0.ipaddr="MANUAL" \
+--powerOn \
 --X:injectOvfEnv \
 --X:logFile=ovftool.log \
 --X:logLevel=verbose \
@@ -71,3 +72,7 @@ sshpass -p "$ESXI_PASSWORD" ssh "$ESXI_USER"@"$DEPLOY_HOST" sh" << EOF
 vmkfstools --createvirtualdisk $SIZE --diskformat zeroedthick /vmfs/volumes/$DATASTORE/$DISPLAY_NAME/volume_disk.vmdk 2>1 > /dev/null
 vim-cmd vmsvc/device.diskaddexisting $VMID /vmfs/volumes/$VOLUME_DATASTORE/$DISPLAY_NAME/volume_disk.vmdk $CONTROLLER $TARGET pvscsi
 EOF"
+
+# Clear SSH Key
+
+ssh-keygen -R "$HOSTNAME"

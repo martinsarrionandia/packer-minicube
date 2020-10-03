@@ -46,11 +46,13 @@
         "scripts/appstream.sh", 
         "scripts/update.sh",
         "scripts/vmtools.sh",
+        "scripts/cockpit.sh",
         "scripts/minikube.sh",
         "scripts/disable_eth_naming.sh",
         "scripts/network.sh",
+        "scripts/disable_ipv6.sh",
         "scripts/fstab.sh",
-        "scripts/users.sh"
+        "scripts/security.sh"
       ]
     }
   ],
