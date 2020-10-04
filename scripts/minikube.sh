@@ -53,7 +53,6 @@ sudo -u "$ADMIN_USER" sh << EOF
 /usr/local/bin/minikube config set driver docker
 /usr/local/bin/minikube config set cpus $CPUS
 /usr/local/bin/minikube config set memory $KUBEMEM
-/usr/local/bin/minikube start
 EOF
 
 # Create minikube systemd unit file for driver docker
@@ -68,9 +67,9 @@ After = docker.service
 
 [Service]
 User = $ADMIN_USER
-ExecStart = /usr/local/bin/minikube start
+ExecStart = /usr/local/bin/minikube start --apiserver-name=$KUBE_HOSTNAME
 ExecStop = /usr/local/bin/minikube stop
-ExecReload = /usr/local/bin/minikube stop ; /usr/local/bin/minikube start
+ExecReload = /usr/local/bin/minikube stop ; /usr/local/bin/minikube start --apiserver-name=$KUBE_HOSTNAME
 RemainAfterExit = yes
 
 [Install]
@@ -89,7 +88,7 @@ After = minikube.service
 
 [Service]
 User=kubeadmin
-ExecStart = /usr/local/bin/kubectl proxy --address $PROXY_IP
+ExecStart = /usr/local/bin/kubectl proxy --address $PROXY_IP --port 8443
 RemainAfterExit = yes
 
 [Install]

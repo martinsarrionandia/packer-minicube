@@ -29,7 +29,7 @@
       "type": "shell",
       "expect_disconnect": true,
       "environment_vars": [
-        "NEWHOSTNAME={{user `hostname`}}",
+        "KUBE_HOSTNAME={{user `hostname`}}",
         "DRIVER={{user `driver`}}",
         "ADMIN_USER={{user `admin_user`}}",
         "ADMIN_PASS={{user `admin_pass`}}",
@@ -60,7 +60,7 @@
     {
       "type": "shell-local",
       "environment_vars": [
-        "NEWHOSTNAME={{user `hostname`}}",
+        "KUBE_HOSTNAME={{user `hostname`}}",
         "CPUS={{user `cpus`}}",
         "MEMORY={{user `memory`}}"
       ],

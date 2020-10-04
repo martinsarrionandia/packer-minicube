@@ -4,4 +4,4 @@ cd output-vmware-iso || exit
 
 ovftool \
 packer-vmware-iso.vmx \
-"$NEWHOSTNAME".ova
+"$KUBE_HOSTNAME".ova
